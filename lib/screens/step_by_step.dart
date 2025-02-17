@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:nutrimove/data/models/user_model.dart';
+import 'package:nutrimove/data/services/auth_service.dart'; 
+import 'package:nutrimove/screens/home_screen.dart';
 
 class StepByStepScreen extends StatefulWidget {
   const StepByStepScreen({super.key});
@@ -23,17 +25,42 @@ class _StepByStepScreenState extends State<StepByStepScreen> {
   void _saveUserData() async {
     User? user = FirebaseAuth.instance.currentUser;
     if (user != null) {
-      await FirebaseFirestore.instance.collection('users').doc(user.uid).update({
-        'name': _nameController.text.trim(),
-        'age': _age,
-        'gender': _gender,
-        'height': int.tryParse(_heightController.text.trim()) ?? 0,
-        'weight': int.tryParse(_weightController.text.trim()) ?? 0,
-      });
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Dane zapisane pomyślnie!")),
+      UserModel userModel = UserModel(
+        id: user.uid,
+        email: user.email!,
+        age: _age,
+        gender: _gender,
+        height: int.tryParse(_heightController.text.trim()) ?? 0,
+        weight: int.tryParse(_weightController.text.trim()) ?? 0,
       );
+
+      try {
+        await AuthService().saveAdditionalUserData(userModel);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Dane zapisane pomyślnie!")),
+        );
+      } catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Błąd zapisu danych: ${e.toString()}")),
+        );
+      }
+    }
+  }
+
+  void _nextStep() {
+    if (_currentStep < _totalSteps - 1) {
+      setState(() {
+        _currentStep++;
+        _pageController.nextPage(
+          duration: Duration(milliseconds: 300),
+          curve: Curves.easeInOut,
+        );
+      });
+    } else {
+      _saveUserData();
+      Navigator.pushReplacement(
+        context,
+       MaterialPageRoute(builder: (context) => HomeScreen()));
     }
   }
 
@@ -65,19 +92,7 @@ class _StepByStepScreenState extends State<StepByStepScreen> {
               IconButton(
                 icon: Icon(
                   _currentStep < _totalSteps - 1 ? Icons.arrow_forward : Icons.check),
-                onPressed: () {
-                  if (_currentStep < _totalSteps - 1) {
-                    setState(() {
-                      _currentStep++;
-                      _pageController.nextPage(
-                        duration: Duration(milliseconds: 300),
-                        curve: Curves.easeInOut,
-                      );
-                    });
-                  } else {
-                    _saveUserData();
-                  }
-                },
+                onPressed: _nextStep,
               ),
             ],
           ),
@@ -150,11 +165,11 @@ class _StepByStepScreenState extends State<StepByStepScreen> {
   Widget _genderButton(String gender) {
     return ElevatedButton(
       onPressed: () => setState(() => _gender = gender),
-      child: Text(gender),
       style: ElevatedButton.styleFrom(
         backgroundColor: _gender == gender ? Colors.blue : Colors.grey[300],
         foregroundColor: _gender == gender ? Colors.white : Colors.black,
       ),
+      child: Text(gender),
     );
   }
 }

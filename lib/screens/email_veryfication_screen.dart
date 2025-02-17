@@ -1,10 +1,31 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:nutrimove/screens/signin_screen.dart';
+import 'package:nutrimove/screens/step_by_step.dart';
 
 class EmailVeryficationScreen extends StatelessWidget {
   const EmailVeryficationScreen({super.key});
+
+  Future<void> _resendVerificationEmail(BuildContext context) async {
+    try {
+      User? user = FirebaseAuth.instance.currentUser;
+      if (user != null && !user.emailVerified) {
+        await user.sendEmailVerification();
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('E-mail weryfikacyjny został wysłany ponownie.'),
+            backgroundColor: Colors.green,
+          ),
+        );
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Wystąpił błąd: ${e.toString()}'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,81 +48,47 @@ class EmailVeryficationScreen extends StatelessWidget {
               Icon(Icons.email_outlined, size: 100, color: Colors.blue),
               SizedBox(height: 50),
               Text(
-                "Wprowadź kod weryfikacyjny",
+                "Sprawdź swoją skrzynkę pocztową",
                 style: TextStyle(fontSize: 25),
               ),
               SizedBox(height: 20),
-              Text('Kod weryfikacyjny został wysłany na Twój adres email'),
+              Text('E-mail weryfikacyjny został wysłany na Twój adres email'),
               SizedBox(height: 50),
-              SizedBox(
-                width: double.infinity,
-                child: Column(
-                  children: [
-                    OtpTextField(
-                      numberOfFields: 6,
-                      showFieldAsBox: true,
-                      onSubmit: (String verificationCode) async {
-                        try {
-                          User? user = FirebaseAuth.instance.currentUser;
-                          if (user != null) {
-                            await user.reload();
-                            if (user.emailVerified) {
-                              // Kod weryfikacyjny jest poprawny
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(builder: (context) => SignInScreen()),
-                              );
-                            } else {
-                              // Kod weryfikacyjny jest niepoprawny
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text('Kod weryfikacyjny jest niepoprawny.'),
-                                  backgroundColor: Colors.red,
-                                ),
-                              );
-                            }
-                          }
-                        } catch (e) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text('Wystąpił błąd: ${e.toString()}'),
-                              backgroundColor: Colors.red,
-                            ),
-                          );
-                        }
-                      },
-                    ),
-                    SizedBox(height: 50),
-                    ElevatedButton(
-                      onPressed: () async {
-                        User? user = FirebaseAuth.instance.currentUser;
-                        if (user != null) {
-                          await user.reload();
-                          if (user.emailVerified) {
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(builder: (context) => SignInScreen()),
-                            );
-                          } else {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text('Kod weryfikacyjny jest niepoprawny.'),
-                                backgroundColor: Colors.red,
-                              ),
-                            );
-                          }
-                        }
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Color(0xFFFFC107),
-                        minimumSize: Size(double.infinity, 50),
-                      ),
-                      child: Text(
-                        "Verify",
-                        style: TextStyle(color: Colors.black),
-                      ),
-                    ),
-                  ],
+              ElevatedButton(
+                onPressed: () async {
+                  User? user = FirebaseAuth.instance.currentUser;
+                  if (user != null) {
+                    await user.reload();
+                    if (user.emailVerified) {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (context) => StepByStepScreen()),
+                      );
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('E-mail nie został jeszcze zweryfikowany.'),
+                          backgroundColor: Colors.red,
+                        ),
+                      );
+                    }
+                  }
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Color(0xFFFFC107),
+                  minimumSize: Size(double.infinity, 50),
+                ),
+                child: Text(
+                  "Sprawdź weryfikację",
+                  style: TextStyle(color: Colors.black),
+                ),
+              ),
+              SizedBox(height: 20),
+              TextButton(
+                onPressed: () => _resendVerificationEmail(context),
+                child: Text(
+                  "Nie otrzymałeś e-maila? Wyślij ponownie",
+                  style: TextStyle(color: Colors.blue),
                 ),
               ),
             ],

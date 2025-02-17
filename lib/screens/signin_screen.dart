@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
+import 'package:nutrimove/screens/home_screen.dart';
 import 'package:nutrimove/screens/signup_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -11,7 +13,36 @@ class SignInScreen extends StatefulWidget {
 
 class _SignInScreenState extends State<SignInScreen> {
   bool _isObscured = true;
+  final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  void _signIn() async {
+    try {
+      UserCredential userCredential = await _auth.signInWithEmailAndPassword(
+        email: _emailController.text.trim(),
+        password: _passwordController.text.trim(),
+      );
+
+      print("✅ Logged in: ${userCredential.user?.email}");
+
+      // Przekierowanie do HomeScreen po poprawnym logowaniu
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => HomeScreen(),
+        ),
+      );
+    } catch (e) {
+      print("❌ Login failed: $e");
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("Login failed. Check your email or password."),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +51,6 @@ class _SignInScreenState extends State<SignInScreen> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            // Górny obrazek
             Container(
               padding: EdgeInsets.only(top: 60),
               child: Image.asset(
@@ -30,7 +60,6 @@ class _SignInScreenState extends State<SignInScreen> {
             ),
             SizedBox(height: 20),
             
-            // Formularz logowania
             Container(
               padding: EdgeInsets.all(20),
               margin: EdgeInsets.only(top: 50),
@@ -43,8 +72,7 @@ class _SignInScreenState extends State<SignInScreen> {
               child: Column(
                 children: [
                   SizedBox(height: 40),
-                  
-                  // Email
+
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
@@ -58,6 +86,7 @@ class _SignInScreenState extends State<SignInScreen> {
                   ),
                   SizedBox(height: 5),
                   TextField(
+                    controller: _emailController,
                     decoration: InputDecoration(
                       hintText: 'Enter your email',
                       hintStyle: TextStyle(color: Colors.grey),
@@ -70,7 +99,6 @@ class _SignInScreenState extends State<SignInScreen> {
                   ),
                   SizedBox(height: 20),
                   
-                  // Hasło z ikoną widoczności
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
@@ -109,12 +137,11 @@ class _SignInScreenState extends State<SignInScreen> {
                   ),
                   SizedBox(height: 20),
 
-                  // Zapomniane hasło
                   Align(
                     alignment: Alignment.centerRight,
                     child: TextButton(
                       onPressed: () {
-                        // Akcja odzyskiwania hasła
+                        // Akcja odzyskiwania hasła (opcjonalnie)
                       },
                       child: Text(
                         "Forgot Password?",
@@ -124,11 +151,8 @@ class _SignInScreenState extends State<SignInScreen> {
                   ),
                   SizedBox(height: 10),
 
-                  // Przycisk logowania
                   ElevatedButton(
-                    onPressed: () {
-                      
-                    },
+                    onPressed: _signIn,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Color(0xFFFFC107),
                       shape: RoundedRectangleBorder(
@@ -147,7 +171,6 @@ class _SignInScreenState extends State<SignInScreen> {
                   ),
                   SizedBox(height: 40),
 
-                  // Separator "Or"
                   Row(
                     children: [
                       Expanded(
@@ -173,7 +196,6 @@ class _SignInScreenState extends State<SignInScreen> {
                   ),
                   SizedBox(height: 40),
 
-                  // Logowanie społecznościowe
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
@@ -184,7 +206,6 @@ class _SignInScreenState extends State<SignInScreen> {
                   ),
                   SizedBox(height: 40),
 
-                  // Link do rejestracji
                   Text.rich(
                     TextSpan(
                       text: "Don’t have an account? ",
@@ -219,7 +240,6 @@ class _SignInScreenState extends State<SignInScreen> {
     );
   }
 
-  // Ikony logowania społecznościowego
   Widget _buildSocialIcon(IconData icon) {
     return CircleAvatar(
       backgroundColor: Colors.grey[200],

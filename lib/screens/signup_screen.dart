@@ -1,8 +1,11 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:nutrimove/screens/signin_screen.dart';
-import 'package:nutrimove/services/auth_service.dart';
+import 'package:nutrimove/data/services/auth_service.dart';
+
 import 'package:nutrimove/screens/email_veryfication_screen.dart';
+
+
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});

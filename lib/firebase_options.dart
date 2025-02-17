@@ -41,49 +41,49 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyBeXtxctg7Ot6UlqeGO_9jLbp-3wn1O4q4',
-    appId: '1:314318645760:android:ded1e415a70b9181c506e5',
-    messagingSenderId: '314318645760',
-    projectId: 'nutrifit-4f82c',
-    storageBucket: 'nutrifit-4f82c.firebasestorage.app',
+    apiKey: 'AIzaSyBlJqc8RQQFB9BJuSvxpxtLg8fp1R7V4jo',
+    appId: '1:114848525815:android:cf7ccbd40e0bb6f94a12f2',
+    messagingSenderId: '114848525815',
+    projectId: 'nutrimove-8703e',
+    storageBucket: 'nutrimove-8703e.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyCUOm_MF1y_QsoqGa00RZBvn7lhqv-J7q0',
-    appId: '1:314318645760:ios:15ecb14be4919bcec506e5',
-    messagingSenderId: '314318645760',
-    projectId: 'nutrifit-4f82c',
-    storageBucket: 'nutrifit-4f82c.firebasestorage.app',
-    iosBundleId: 'com.example.nutrifit',
+    apiKey: 'AIzaSyAGqln-tVhmTek9Lwo5OBGECSua4mimSJQ',
+    appId: '1:114848525815:ios:dec322f8c637d36b4a12f2',
+    messagingSenderId: '114848525815',
+    projectId: 'nutrimove-8703e',
+    storageBucket: 'nutrimove-8703e.firebasestorage.app',
+    iosBundleId: 'com.example.nutrimove',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyCUOm_MF1y_QsoqGa00RZBvn7lhqv-J7q0',
-    appId: '1:314318645760:ios:15ecb14be4919bcec506e5',
-    messagingSenderId: '314318645760',
-    projectId: 'nutrifit-4f82c',
-    storageBucket: 'nutrifit-4f82c.firebasestorage.app',
-    iosBundleId: 'com.example.nutrifit',
+    apiKey: 'AIzaSyAGqln-tVhmTek9Lwo5OBGECSua4mimSJQ',
+    appId: '1:114848525815:ios:dec322f8c637d36b4a12f2',
+    messagingSenderId: '114848525815',
+    projectId: 'nutrimove-8703e',
+    storageBucket: 'nutrimove-8703e.firebasestorage.app',
+    iosBundleId: 'com.example.nutrimove',
   );
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyDVoej7c9rUQCPLOS07SYaVKwK6VJeZBGA',
-    appId: '1:314318645760:web:c32f5f3143f7d21ac506e5',
-    messagingSenderId: '314318645760',
-    projectId: 'nutrifit-4f82c',
-    authDomain: 'nutrifit-4f82c.firebaseapp.com',
-    storageBucket: 'nutrifit-4f82c.firebasestorage.app',
-    measurementId: 'G-7K9WG95GME',
+    apiKey: 'AIzaSyDJSuYmvz7eralCY9svuTkzLpPLkXQ1MiY',
+    appId: '1:114848525815:web:bc8a71508ab56f8b4a12f2',
+    messagingSenderId: '114848525815',
+    projectId: 'nutrimove-8703e',
+    authDomain: 'nutrimove-8703e.firebaseapp.com',
+    storageBucket: 'nutrimove-8703e.firebasestorage.app',
+    measurementId: 'G-LBBQKKCTC9',
   );
 
   static const FirebaseOptions windows = FirebaseOptions(
-    apiKey: 'AIzaSyDVoej7c9rUQCPLOS07SYaVKwK6VJeZBGA',
-    appId: '1:314318645760:web:f54479b07beb9382c506e5',
-    messagingSenderId: '314318645760',
-    projectId: 'nutrifit-4f82c',
-    authDomain: 'nutrifit-4f82c.firebaseapp.com',
-    storageBucket: 'nutrifit-4f82c.firebasestorage.app',
-    measurementId: 'G-HGEJL88J7B',
+    apiKey: 'AIzaSyDJSuYmvz7eralCY9svuTkzLpPLkXQ1MiY',
+    appId: '1:114848525815:web:24383abf10ff14e84a12f2',
+    messagingSenderId: '114848525815',
+    projectId: 'nutrimove-8703e',
+    authDomain: 'nutrimove-8703e.firebaseapp.com',
+    storageBucket: 'nutrimove-8703e.firebasestorage.app',
+    measurementId: 'G-E41P3D6CJB',
   );
 
 }
