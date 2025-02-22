@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:nutrimove/data/models/user_model.dart';
-import 'package:nutrimove/data/services/auth_service.dart'; 
-import 'package:nutrimove/screens/home_screen.dart';
+import 'package:nutrimove/data/services/auth_service.dart';
+import '../components/bottom_navigation_bar.dart';
 
 class StepByStepScreen extends StatefulWidget {
   const StepByStepScreen({super.key});
@@ -28,6 +28,7 @@ class _StepByStepScreenState extends State<StepByStepScreen> {
       UserModel userModel = UserModel(
         id: user.uid,
         email: user.email!,
+        name: _nameController.text.trim(),
         age: _age,
         gender: _gender,
         height: int.tryParse(_heightController.text.trim()) ?? 0,
@@ -60,7 +61,8 @@ class _StepByStepScreenState extends State<StepByStepScreen> {
       _saveUserData();
       Navigator.pushReplacement(
         context,
-       MaterialPageRoute(builder: (context) => HomeScreen()));
+        MaterialPageRoute(builder: (context) => BottomNavigationMenu()),
+      );
     }
   }
 

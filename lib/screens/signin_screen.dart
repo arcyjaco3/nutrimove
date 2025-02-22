@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
-import 'package:nutrimove/screens/home_screen.dart';
 import 'package:nutrimove/screens/signup_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import '../components/bottom_navigation_bar.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -30,7 +30,7 @@ class _SignInScreenState extends State<SignInScreen> {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => HomeScreen(),
+          builder: (context) => BottomNavigationMenu(),
         ),
       );
     } catch (e) {
