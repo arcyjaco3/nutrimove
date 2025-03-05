@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart'; 
 
 import 'screens/onboarding_screen.dart';
+import '../screens/calendar_screen.dart'; // widok tymczasowy
+
+import 'themes/theme.dart';
 
 
 void main() async {
@@ -17,7 +20,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: OnboardingScreen(), 
+      theme: Themes.light,
+      darkTheme: Themes.dark,
+      themeMode: ThemeMode.light,
+      home: CalendarScreen(), 
     );
   }
 }
